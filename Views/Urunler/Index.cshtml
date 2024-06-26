@@ -1,0 +1,70 @@
+@model IEnumerable<UrunTakipProjesi.Models.Urun>
+
+@{
+    ViewData["Title"] = "Ürün Listesi";
+}
+
+<h2>Ürün Listesi</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Yeni Ürün Ekle</a>
+</p>
+
+<table id="tbllist" class="table table-bordered table-striped">
+    <thead class="bg-dark text-white">
+        <tr>
+            <th>Ürün Adı</th>
+            <th>Ürün Fiyatı</th>
+            <th>Ürün Adedi</th>
+            <th>Ürün Fotoğrafı</th>
+            <th>Kategori Bilgisi</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.UrunAd)</td>
+            <td>@Html.DisplayFor(modelItem => item.UrunFiyat)</td>
+            <td>@Html.DisplayFor(modelItem => item.UrunAdet)</td>
+            <td>
+                @if (item != null && !string.IsNullOrEmpty(item.UrunPhoto))
+                {
+                    <img src="@Url.Content(item.UrunPhoto)" alt="Ürün görseli" height="50" width="50" />
+                }
+                else
+                {
+                    <span>No Image</span>
+                }
+            </td>
+            <td>
+                @if (item != null && item.Kategori != null)
+                {
+                    @Html.DisplayFor(modelItem => item.Kategori.KategoriAd)
+                }
+                else
+                {
+                    <span>No Category</span>
+                }
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.UrunId" class="btn btn-primary">Düzenle</a> |
+                <a asp-action="Details" asp-route-id="@item.UrunId" class="btn btn-info">Detaylar</a> |
+                <a asp-action="Delete" asp-route-id="@item.UrunId" class="btn btn-danger">Sil</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#tbllist').DataTable();
+        });
+    </script>
+}

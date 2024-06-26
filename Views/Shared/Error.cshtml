@@ -1,0 +1,22 @@
+﻿@model Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary
+
+@{
+    ViewData["Title"] = "Hata";
+}
+
+<h1 class="text-danger">Bir hata oluştu.</h1>
+<h2 class="text-danger">Veritabanına aykırı bir giriş yapmaya çalıştınız.</h2>
+
+<ul>
+    @foreach (var entry in Model)
+    {
+        @foreach (var error in entry.Value.Errors)
+        {
+            <li>@error.ErrorMessage</li>
+        }
+    }
+</ul>
+
+<p>
+    <a asp-action="Index" asp-controller="Urunler" class="btn btn-primary">Geri Dön</a>
+</p>
